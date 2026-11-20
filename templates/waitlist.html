@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join Waitlist · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .waitlist-hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: radial-gradient(ellipse at center, rgba(200,255,0,0.08) 0%, transparent 70%);
+      position: relative;
+      overflow: hidden;
+    }
+    .waitlist-hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(200,255,0,0.15), transparent 70%);
+      animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.15); opacity: 1; }
+    }
+    .waitlist-box {
+      background: rgba(20,20,20,0.9);
+      border: 1px solid #2a2a2a;
+      border-radius: 20px;
+      padding: 48px 40px;
+      max-width: 480px;
+      position: relative;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+      animation: fadeUp 0.8s ease-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .waitlist-box h1 { font-size: 2.2rem; margin-bottom: 12px; }
+    .waitlist-box p { color: #aaa; margin-bottom: 28px; }
+    .waitlist-form input {
+      width: 100%;
+      padding: 14px 16px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 10px;
+      color: white;
+      margin-bottom: 12px;
+      font-size: 1rem;
+    }
+    .success { color: var(--lime); margin-top: 16px; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo"><div class="logo-icon">▶</div> ClipForge</div>
+      <a href="/login" class="btn-outline">Sign in</a>
+    </div>
+  </nav>
+
+  <div class="waitlist-hero">
+    <div class="waitlist-box">
+      <div class="badge" style="margin-bottom:20px;"><span class="badge-dot"></span> Early access</div>
+      <h1>{{ settings.waitlist_headline or "Join the Waitlist" }}</h1>
+      <p>{{ settings.waitlist_subtext or "Be the first to turn long videos into viral shorts. Early users get free tokens." }}</p>
+
+      <form action="/waitlist" method="post" class="waitlist-form">
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Email address" required>
+        <button type="submit" class="btn-lime btn-large" style="width:100%;">Get Early Access</button>
+      </form>
+
+      {% if request.query_params.get("joined") %}
+        <div class="success">You're on the list! We'll email you soon.</div>
+      {% endif %}
+
+      <p style="margin-top:24px;font-size:0.85rem;color:#666;">No spam. Just launch updates and your free tokens.</p>
+    </div>
+  </div>
+</body>
+</html>

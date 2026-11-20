@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New project · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><a href="/" class="logo" style="text-decoration:none;color:inherit;"><div class="logo-icon">▶</div> ClipForge</a></div>
+      <nav class="side-nav">
+        <a href="/dashboard" class="active">+ New project</a>
+        <a href="/clips">Projects</a>
+        <a href="/billing">Plan and billing</a>
+        <a href="/referral">Referral</a>
+      <a href="/logout" style="color:#888;">Logout</a>
+      </nav>
+      <div style="padding:20px;margin-top:auto;border-top:1px solid #222;">
+        <div style="font-size:0.85rem;color:#888;">Free plan</div>
+        <div style="font-weight:600;">{{ user.tokens }} tokens left</div>
+        <a href="/billing" style="color:var(--lime);font-size:0.9rem;">Get more minutes</a>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <h1 style="font-size:1.8rem;margin-bottom:6px;">New project</h1>
+      <p style="color:#888;margin-bottom:24px;">Add a video, choose how you want the clips, and we do the rest.</p>
+
+      {% if request.query_params.get("error") %}
+        <div style="background:#2a1a1a;color:#ff6b6b;padding:12px 16px;border-radius:8px;margin-bottom:16px;">
+          Job failed: {{ request.query_params.get("msg", "Please check the YouTube link and try again.") }}
+        </div>
+      {% endif %}
+
+      <form action="/clip" method="post" id="clipForm">
+        <div class="drop-zone">
+          <div style="font-size:2rem;margin-bottom:8px;">↑</div>
+          <strong>Paste YouTube link</strong>
+          <input type="url" name="url" placeholder="https://youtube.com/watch?v=..." required
+                 style="max-width:480px;margin:16px auto;display:block;padding:12px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:white;width:100%;">
+        </div>
+
+        <h3 style="margin:28px 0 16px;">Clip settings</h3>
+        <div class="settings-grid">
+          <div class="setting-box">
+            <label>Number of clips</label>
+            <input type="number" name="clips" id="clipCount" value="5" min="1" max="20"
+                   style="width:100%;margin-top:8px;padding:10px;background:#111;border:1px solid #333;border-radius:8px;color:white;">
+          </div>
+          <div class="setting-box">
+            <label>Clip length</label>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px;">
+              <input type="number" name="min_len" value="20" style="width:70px;padding:10px;background:#111;border:1px solid #333;border-radius:8px;color:white;"> to
+              <input type="number" name="max_len" value="55" style="width:70px;padding:10px;background:#111;border:1px solid #333;border-radius:8px;color:white;"> sec
+            </div>
+          </div>
+        </div>
+
+        
+
+        <label style="display:flex;align-items:center;gap:10px;margin:20px 0;">
+          <input type="checkbox" name="is_live" value="on">
+          🔴 This is a LIVE stream (every 10 min)
+        </label>
+
+        <button type="submit" class="btn-lime btn-large" id="submitBtn">Make 5 clips</button>
+        <span style="color:#888;margin-left:12px;">Uses tokens based on video length.</span>
+      </form>
+    </main>
+  </div>
+
+  <script>
+    const clipInput = document.getElementById('clipCount');
+    const submitBtn = document.getElementById('submitBtn');
+    function updateBtn() {
+      const n = clipInput.value || 5;
+      submitBtn.textContent = `Make ${n} clips`;
+    }
+    clipInput.addEventListener('input', updateBtn);
+    updateBtn();
+  </script>
+
+  <div id="loader" style="display:none;position:fixed;inset:0;background:#0a0a0a;z-index:9999;align-items:center;justify-content:center;flex-direction:column;">
+    <div style="width:100%;max-width:500px;padding:40px;">
+      <h2 style="margin-bottom:8px;">Making your clips</h2>
+      <p style="color:#888;margin-bottom:24px;">Please wait...</p>
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span id="percent" style="font-size:2rem;font-weight:700;">0%</span>
+        <span id="status" style="color:#888;">Starting...</span>
+      </div>
+      <div style="height:10px;background:#222;border-radius:5px;overflow:hidden;">
+        <div id="bar" style="height:100%;background:var(--lime);width:0%;transition:width 0.3s;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("clipForm").addEventListener("submit", function(e) {
+      const loader = document.getElementById("loader");
+      loader.style.display = "flex";
+      document.getElementById("submitBtn").disabled = true;
+      let p = 0;
+      const timer = setInterval(() => {
+        p += Math.random() * 3 + 1;
+        if (p > 95) p = 95;
+        document.getElementById("percent").textContent = Math.floor(p) + "%";
+        document.getElementById("bar").style.width = p + "%";
+        document.getElementById("status").textContent = p < 30 ? "Downloading..." : p < 60 ? "Transcribing..." : "Rendering...";
+      }, 400);
+    });
+  </script>
+</body>
+</html>

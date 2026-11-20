@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClipForge — Long videos in. English-captioned shorts out.</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo"><div class="logo-icon">▶</div> ClipForge</div>
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="/login">Sign in</a>
+        <a href="/login" class="btn-lime">Start free</a>
+      </div>
+    </div>
+  </nav>
+
+  
+  <!-- Homepage Banner / Slideshow -->
+  <div class="banner-slideshow" style="position:relative;background:#0a0a0a;min-height:280px;">
+    {% if settings.banner_image %}
+      <img src="{{ settings.banner_image }}" alt="Banner" style="width:100%;height:380px;object-fit:cover;display:block;">
+    {% else %}
+      <div style="height:320px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#111,#1a1a00);">
+        <div style="text-align:center;">
+          <div style="font-size:1.4rem;font-weight:700;margin-bottom:8px;">Your Banner Here</div>
+          <p style="color:#888;">Upload an image from Admin → Banners</p>
+        </div>
+      </div>
+    {% endif %}
+    {% if settings.banner_button %}
+    <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%);">
+      <a href="{{ settings.banner_link or '/login' }}" class="btn-lime btn-large">{{ settings.banner_button }}</a>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="container">
+    <section class="hero">
+      <div>
+        <div class="badge"><span class="badge-dot"></span> Hindi, Hinglish or any language in. English captions out.</div>
+        <h1>{{ settings.hero_title or "Long videos in. English-captioned shorts out." }}</h1>
+        <p>{{ settings.hero_subtitle or "Upload a podcast, lecture or interview. ClipForge finds the strongest moments and writes captions." }}</p>
+        <div class="hero-actions">
+          <a href="/login" class="btn-lime btn-large">Start free, 30 minutes</a>
+          <a href="#how" class="btn-outline btn-large">See how it works</a>
+        </div>
+        <p class="small-note">No card needed for the free plan. Source videos are deleted after 7 days.</p>
+      </div>
+      <div class="preview-card">
+        <div class="preview-header">
+          <div><span class="lang-pill">Spoken: Hindi</span> → <span class="lang-pill" style="background:#c8ff00;color:#000;">Captions: English</span></div>
+          <span style="color:#888;">3 of 5 clips</span>
+        </div>
+        <div class="clips-row">
+          <div class="clip-thumb"><div class="play-btn">▶</div><div class="clip-title">THIS IS THE<br>BIGGEST MISTAKE</div></div>
+          <div class="clip-thumb"><div class="play-btn">▶</div><div class="clip-title">WHY I STOPPED<br>DOING THIS</div></div>
+          <div class="clip-thumb"><div class="play-btn">▶</div><div class="clip-title">START WITH THE<br>SMALL STEP</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>From one long video to a week of posts</h2>
+      <p class="section-sub">Three steps. You only touch the first and the last.</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Upload your video</h3>
+          <p style="color:#aaa;margin-top:8px;">Drop an MP4 or MOV. Choose how many clips you want and how long each should be.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>We pick the moments</h3>
+          <p style="color:#aaa;margin-top:8px;">The AI listens, finds strong hooks and complete thoughts, and gives each clip a title and a one-line reason.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Edit and download</h3>
+          <p style="color:#aaa;margin-top:8px;">Fix any caption word, trim the start or end, then download vertical 9:16 MP4s ready to post.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing">
+      <h2>Pay for minutes, not features</h2>
+      <p class="section-sub">1 credit = 1 minute of source video you upload.</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price">₹0<span>/month</span></div>
+          <ul>
+            <li>30 min of source video</li>
+            <li>English captions</li>
+            <li>Caption editor</li>
+            <li>Watermark on captions</li>
+          </ul>
+          <a href="/login" class="btn-outline" style="width:100%;">Start free</a>
+        </div>
+        <div class="price-card">
+          <h3>Starter</h3>
+          <div class="price">₹499<span>/month</span></div>
+          <ul>
+            <li>150 min of source video</li>
+            <li>No watermark</li>
+            <li>Source videos up to 2 hours</li>
+            <li>English captions and editor</li>
+          </ul>
+          <a href="/login" class="btn-outline" style="width:100%;">Choose Starter</a>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro <span style="background:var(--lime);color:#000;font-size:0.7rem;padding:2px 8px;border-radius:4px;margin-left:8px;">Daily posting</span></h3>
+          <div class="price">₹999<span>/month</span></div>
+          <ul>
+            <li>400 min of source video</li>
+            <li>Everything in Starter</li>
+            <li>Source videos up to 4 hours</li>
+            <li>Brand kit and caption presets</li>
+          </ul>
+          <a href="/login" class="btn-lime" style="width:100%;">Choose Pro</a>
+        </div>
+      </div>
+      <div class="price-card" style="margin-top:12px;">
+        <h3>Agency</h3>
+        <div class="price">₹2,999<span>/month</span></div>
+        <ul>
+          <li>1,200 min of source video</li>
+          <li>Everything in Pro</li>
+          <li>Client folders</li>
+          <li>Bulk export</li>
+        </ul>
+        <a href="/login" class="btn-outline" style="width:100%;">Choose Agency</a>
+      </div>
+    </section>
+  </div>
+
+  <footer style="padding:40px 0;text-align:center;color:#666;border-top:1px solid #222;margin-top:40px;">
+    © ClipForge · Terms · Privacy · Refund policy · Contact
+  </footer>
+</body>
+</html>

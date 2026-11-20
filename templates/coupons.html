@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coupons · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><a href="/" class="logo" style="text-decoration:none;color:inherit;"><div class="logo-icon">▶</div> ClipForge</a></div>
+      <nav class="side-nav">
+        <a href="/dashboard">+ New project</a>
+        <a href="/clips">Projects</a>
+        <a href="/billing">Plan and billing</a>
+        <a href="/coupons" class="active">Coupons</a>
+      <a href="/logout" style="color:#888;">Logout</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1 style="font-size:1.8rem;margin-bottom:8px;">Redeem Coupon</h1>
+      <p style="color:#888;margin-bottom:24px;">Enter a coupon code to get bonus tokens or discount.</p>
+
+      <div class="admin-card" style="max-width:480px;">
+        <form action="/redeem-coupon" method="post">
+          <label>Coupon code</label>
+          <input type="text" name="code" placeholder="LAUNCH50" required style="text-transform:uppercase;">
+          <button type="submit" class="btn-lime btn-large" style="margin-top:12px;">Redeem</button>
+        </form>
+        {% if request.query_params.get("success") %}
+          <div style="color:var(--lime);margin-top:16px;">Coupon applied! Tokens added.</div>
+        {% endif %}
+        {% if request.query_params.get("error") %}
+          <div style="color:#ff6b6b;margin-top:16px;">Invalid or expired coupon.</div>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+</body>
+</html>

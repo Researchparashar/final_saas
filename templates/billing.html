@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan and billing · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><a href="/" class="logo" style="text-decoration:none;color:inherit;"><div class="logo-icon">▶</div> ClipForge</a></div>
+      <nav class="side-nav">
+        <a href="/dashboard">+ New project</a>
+        <a href="/clips">Projects</a>
+        <a href="/billing" class="active">Plan and billing</a>
+      <a href="/logout" style="color:#888;">Logout</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1 style="font-size:1.8rem;margin-bottom:8px;">Plan and billing</h1>
+      <p style="color:#888;margin-bottom:24px;">Current plan: <strong>Free</strong> · {{ user.tokens }} tokens left</p>
+
+      
+      <div class="admin-card" style="max-width:480px;margin-bottom:24px;">
+        <h3 style="margin-bottom:12px;">Have a coupon?</h3>
+        <form id="couponForm" style="display:flex;gap:8px;">
+          <input type="text" id="couponCode" placeholder="Enter coupon code" style="flex:1;padding:12px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:white;">
+          <button type="button" class="btn-lime" onclick="applyCoupon()">Apply</button>
+        </form>
+        <p id="couponMsg" style="margin-top:10px;font-size:0.9rem;"></p>
+      </div>
+
+      <script>
+        function applyCoupon() {
+          const code = document.getElementById('couponCode').value.trim().toUpperCase();
+          const msg = document.getElementById('couponMsg');
+          if (!code) { msg.textContent = 'Enter a code'; msg.style.color = '#ff6b6b'; return; }
+          // Demo discounts
+          const discounts = { 'LAUNCH50': 50, 'SAVE20': 20, 'WELCOME10': 10 };
+          if (discounts[code]) {
+            msg.textContent = discounts[code] + '% discount applied!';
+            msg.style.color = '#c8ff00';
+            document.querySelectorAll('.price').forEach(el => {
+              const num = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+              if (num) {
+                const discounted = Math.round(num * (1 - discounts[code]/100));
+                el.innerHTML = el.innerHTML.replace(num, discounted) + ' <span style="font-size:0.8rem;color:#c8ff00;">(' + discounts[code] + '% off)</span>';
+              }
+            });
+          } else {
+            msg.textContent = 'Invalid coupon';
+            msg.style.color = '#ff6b6b';
+          }
+        }
+      </script>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>Free</h3>
+          <div class="price">₹0</div>
+          <ul><li>Limited tokens</li><li>Basic clips</li></ul>
+          <button class="btn-outline" disabled>Current</button>
+        </div>
+        <div class="price-card featured">
+          <h3>Pro</h3>
+          <div class="price" id="priceDisplay">₹{{ settings.pricing_pro_monthly or 999 }}<span>/mo</span></div>
+          <p style="font-size:0.85rem;color:#888;margin-top:4px;">India: ₹{{ settings.pricing_pro_monthly or 999 }} · Other: ${{ settings.pricing_pro_monthly_usd or 12 }}</p>
+          <ul><li>More tokens</li><li>Live streams</li><li>Higher quality</li></ul>
+          <a href="#" class="btn-lime">Upgrade to Pro</a>
+        </div>
+      </div>
+      <p style="color:#666;margin-top:20px;font-size:0.9rem;">PayPal and Razorpay coming soon. Pricing is controlled from Admin.</p>
+    </main>
+  </div>
+</body>
+</html>

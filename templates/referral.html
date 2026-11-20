@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Referral · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><a href="/" class="logo" style="text-decoration:none;color:inherit;"><div class="logo-icon">▶</div> ClipForge</a></div>
+      <nav class="side-nav">
+        <a href="/dashboard">+ New project</a>
+        <a href="/clips">Projects</a>
+        <a href="/billing">Plan and billing</a>
+        <a href="/referral" class="active">Referral</a>
+        <a href="/logout" style="color:#888;">Logout</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <h1 style="font-size:1.8rem;margin-bottom:8px;">Invite & Earn</h1>
+      <p style="color:#888;margin-bottom:24px;">Share your link. When someone buys a plan, both of you get a discount set by admin.</p>
+
+      <div class="admin-card" style="max-width:560px;">
+        <label>Your referral link</label>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <input type="text" id="refLink" value="http://localhost:8000/?ref={{ user.id }}" readonly style="flex:1;padding:12px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:white;">
+          <button class="btn-lime" onclick="copyLink()">Copy</button>
+        </div>
+        <p style="color:#888;font-size:0.9rem;margin-top:12px;">
+          Discount for both parties: <strong>{{ settings.referral_bonus_tokens or 25 }} tokens</strong> (controlled by admin)
+        </p>
+      </div>
+    </main>
+  </div>
+  <script>
+    function copyLink() {
+      const el = document.getElementById('refLink');
+      el.select();
+      document.execCommand('copy');
+      alert('Link copied!');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+jinja2
+python-multipart
+faster-whisper
+yt-dlp
+# Optional for production Google OAuth + Drive:
+# authlib
+# google-api-python-client
+# google-auth-oauthlib

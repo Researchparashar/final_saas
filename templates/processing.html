@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Making your clips · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .progress-wrap { max-width: 640px; margin: 40px auto; }
+    .progress-bar { height: 8px; background: #222; border-radius: 4px; overflow: hidden; margin: 16px 0; }
+    .progress-fill { height: 100%; background: var(--lime); width: 0%; transition: width 0.4s; }
+    .step { background: #141414; border: 1px solid #2a2a2a; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; display: flex; align-items: center; gap: 14px; }
+    .step.active { border-color: var(--lime); }
+    .step-num { width: 28px; height: 28px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+    .step.active .step-num { background: var(--lime); color: #000; }
+  </style>
+</head>
+<body>
+  <div class="dash-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo"><div class="logo"><div class="logo-icon">▶</div> ClipForge</div></div>
+      <nav class="side-nav">
+        <a href="/dashboard">+ New project</a>
+        <a href="/clips" class="active">My Clips</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <div class="progress-wrap">
+        <h1 style="font-size:1.8rem;">Making your clips</h1>
+        <p style="color:#888;margin-bottom:24px;">You can leave this page. We keep working and your clips will appear in My Clips.</p>
+
+        <div style="background:#141414;border:1px solid #2a2a2a;border-radius:14px;padding:24px;margin-bottom:20px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span id="percent" style="font-size:2.2rem;font-weight:700;">0%</span>
+            <span id="eta" style="color:#888;">Starting...</span>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+        </div>
+
+        <div class="step active" id="s1"><div class="step-num">1</div><div><strong>Video received</strong><br><span style="color:#888;font-size:0.9rem;">Downloading audio</span></div></div>
+        <div class="step" id="s2"><div class="step-num">2</div><div><strong>Listening and writing captions</strong><br><span style="color:#888;font-size:0.9rem;">Transcribing</span></div></div>
+        <div class="step" id="s3"><div class="step-num">3</div><div><strong>Choosing the best moments</strong><br><span style="color:#888;font-size:0.9rem;">AI selection</span></div></div>
+        <div class="step" id="s4"><div class="step-num">4</div><div><strong>Cutting vertical clips</strong><br><span style="color:#888;font-size:0.9rem;">Rendering</span></div></div>
+
+        <a href="/clips" class="btn-lime" style="margin-top:20px;display:inline-block;">Go to My Clips</a>
+      </div>
+    </main>
+  </div>
+  <script>
+    let p = 0;
+    const stages = [15, 45, 70, 100];
+    let stage = 0;
+    const timer = setInterval(() => {
+      p += Math.random() * 4 + 1;
+      if (p > stages[stage]) stage++;
+      if (p >= 100) { p = 100; clearInterval(timer); document.getElementById('eta').textContent = 'Done'; }
+      document.getElementById('percent').textContent = Math.floor(p) + '%';
+      document.getElementById('bar').style.width = p + '%';
+      document.getElementById('eta').textContent = p < 100 ? 'About ' + Math.max(1, Math.floor((100-p)/8)) + ' min left' : 'Done';
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('s'+i);
+        el.classList.toggle('active', i === stage+1);
+      }
+    }, 800);
+  </script>
+</body>
+</html>

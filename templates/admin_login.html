@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login · ClipForge</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0a0a0a;">
+  <div style="background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:48px;width:100%;max-width:400px;">
+    <div class="logo" style="margin-bottom:24px;"><div class="logo-icon">▶</div> Admin</div>
+    <h1 style="font-size:1.6rem;margin-bottom:24px;">Owner Login</h1>
+    {% if error %}<div style="background:#2a1a1a;color:#ff6b6b;padding:12px;border-radius:8px;margin-bottom:16px;">{{ error }}</div>{% endif %}
+    <form action="/admin/login" method="post">
+      <input type="password" name="password" placeholder="Admin password" required style="width:100%;padding:14px;background:#1a1a1a;border:1px solid #333;border-radius:8px;color:white;margin-bottom:16px;">
+      <button type="submit" class="btn-lime" style="width:100%;padding:14px;">Enter Admin</button>
+    </form>
+    <p style="color:#666;font-size:0.85rem;margin-top:20px;text-align:center;">Change password via ADMIN_PASSWORD environment variable.</p>
+  </div>
+</body>
+</html>
