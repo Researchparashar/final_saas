@@ -8,3 +8,4 @@ yt-dlp
 # authlib
 # google-api-python-client
 # google-auth-oauthlib
+itsdangerous
